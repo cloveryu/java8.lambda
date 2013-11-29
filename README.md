@@ -1,4 +1,4 @@
 Java 8
 =========
 
-Functional programming in Java 8 v.s. Guava
+Functional programming in Java 8 vs Guava
