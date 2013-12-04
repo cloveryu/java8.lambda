@@ -1,5 +1,6 @@
 package com.thoughtworks.cloveryu.functional;
 
+import com.thoughtworks.cloveryu.functional.domain.CheckPerson;
 import com.thoughtworks.cloveryu.functional.domain.Person;
 import com.thoughtworks.cloveryu.functional.domain.PersonBuilder;
 import com.thoughtworks.cloveryu.functional.domain.Roster;
@@ -41,6 +42,31 @@ public class RosterTest {
     @Test
     public void shouldPrintPersonAgeInRange() {
         assertThat(roster.countPersonsWithinAgeRange(persons, 23, 25), is(2));
+    }
+
+    @Test
+    public void shouldPrintPersonIfMaleAndAgeInRange20And24() {
+        assertThat(roster.countPersonsWithChecker(persons, new CheckPerson() {
+            @Override
+            public boolean test(Person person) {
+                return person.getGender() == Person.Gender.MALE &&
+                        20 <= person.getAge() && person.getAge() <= 24;
+            }
+        }), is(2));
+    }
+
+    @Test
+    public void shouldPrintPersonWithLambdaIfMaleAndAgeInRange20And24() {
+        assertThat(roster.countPersonsWithChecker(persons,
+                (Person p) -> p.getGender() == Person.Gender.MALE &&
+                        20 <= p.getAge() && p.getAge() <= 24), is(2));
+    }
+
+    @Test
+    public void shouldPrintPersonWithPredicateIfMaleAndAgeInRange20And24() {
+        assertThat(roster.countPersonsWithPredicate(persons,
+                p -> p.getGender() == Person.Gender.MALE &&
+                    20 <= p.getAge() && p.getAge() <= 24), is(2));
     }
 
 }
